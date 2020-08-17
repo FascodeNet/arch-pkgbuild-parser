@@ -1,5 +1,5 @@
 pkgname=TDN
-pkgname=114514
+pkgver=114514
 pkgrel=1
 pkgdesc="TDN 1919"
 url="www.example.org"
