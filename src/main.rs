@@ -37,6 +37,7 @@ fn main() {
     let mut depends_ended:bool = false;
     let lkun1=Regex::new(r">=.*?'").unwrap();
     let lkun1a=Regex::new(r##">=.*?""##).unwrap();
+    let sharp_delete=Regex::new(r"#.*$").unwrap();
     for (index, line) in reader.lines().enumerate() {
         if(!depends_searched){
             let line = line.unwrap();
@@ -53,6 +54,8 @@ fn main() {
                     let mut head_bufkun:String = String::new();
                     head_bufkun.push_str("depends");
                     head_bufkun.push_str(&buf_copykun);
+                    head_bufkun=sharp_delete.replace_all(&head_bufkun,"").to_string();
+                    head_bufkun=head_bufkun.clone().replace("#","");
                     file_data_cut.push_str(&head_bufkun);
                 }
             }else{
@@ -65,6 +68,8 @@ fn main() {
                     let mut head_bufkun:String = String::new();
                     head_bufkun.push_str("makedepends");
                     head_bufkun.push_str(&buf_copykun);
+                    head_bufkun=sharp_delete.replace_all(&head_bufkun,"").to_string();
+                    head_bufkun=head_bufkun.clone().replace("#","");
                     file_data_cut.push_str(&head_bufkun);
                 }
             }
@@ -74,6 +79,8 @@ fn main() {
             let mut buf_line=line.clone();
             buf_line=lkun1.replace_all(&buf_line.clone(),"\'").to_string();
             buf_line=lkun1a.replace_all(&buf_line.clone(),"\"").to_string();
+            buf_line=sharp_delete.replace_all(&buf_line,"").to_string();
+            buf_line=buf_line.clone().replace("#","");
             let buf_lkun=line.clone().replace(" ","");
             if buf_lkun.ends_with(")") {
                 depends_ended=true;
