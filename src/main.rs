@@ -56,7 +56,12 @@ fn main() {
                     head_bufkun.push_str(&buf_copykun);
                     head_bufkun=sharp_delete.replace_all(&head_bufkun,"").to_string();
                     head_bufkun=head_bufkun.clone().replace("#","");
-                    file_data_cut.push_str(&head_bufkun);
+                    file_data_cut.push_str(&head_bufkun);      
+                    if buf_copykun.ends_with(")") {
+                        depends_ended=true;
+                    }          
+                    file_data_cut.push_str("\n");
+                    
                 }
             }else{
 
@@ -70,7 +75,11 @@ fn main() {
                     head_bufkun.push_str(&buf_copykun);
                     head_bufkun=sharp_delete.replace_all(&head_bufkun,"").to_string();
                     head_bufkun=head_bufkun.clone().replace("#","");
-                    file_data_cut.push_str(&head_bufkun);
+                    file_data_cut.push_str(&head_bufkun);    
+                if buf_copykun.ends_with(")") {
+                    depends_ended=true;
+                }          
+                file_data_cut.push_str("\n");
                 }
             }
         }else if (!depends_ended){
@@ -85,7 +94,8 @@ fn main() {
             if buf_lkun.ends_with(")") {
                 depends_ended=true;
             }
-            file_data_cut.push_str(&buf_line);
+            file_data_cut.push_str(&buf_line);               
+            file_data_cut.push_str("\n");
         }
     }
     let mut depends_count:i64;
