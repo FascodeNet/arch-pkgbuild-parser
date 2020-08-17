@@ -10,7 +10,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "arch-pkhbuild-parser"
+name = "arch-pkgbuild-parser"
 version = "0.1.0"
 dependencies = [
  "clap",

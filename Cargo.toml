@@ -1,5 +1,5 @@
 [package]
-name = "arch-pkhbuild-parser"
+name = "arch-pkgbuild-parser"
 version = "0.1.0"
 authors = ["kokkiemouse <kokkiemouse@gmail.com>"]
 edition = "2018"
