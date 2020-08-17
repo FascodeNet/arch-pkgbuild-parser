@@ -16,6 +16,11 @@ fn main() {
             .long("pkgbuild")
             .takes_value(true)
             .required(true)
+        )
+        .arg(Arg::with_name("MAKEDEPENDS")
+        .help("makedepends")
+        .short("m")
+        .long("makedepends")
     );
     let matches = app.get_matches();
     let PKGBUILD_PATH;
@@ -24,6 +29,7 @@ fn main() {
     }else{
         PKGBUILD_PATH=String::new();
     }
+    let makedepends_enable:bool=matches.is_present("MAKEDEPENDS");
     let file = File::open(PKGBUILD_PATH).unwrap();
     let reader=BufReader::new(file);
     let mut file_data_cut=String::new();
@@ -38,15 +44,29 @@ fn main() {
             let buf_lkun=line.clone().replace(" ","");
             buf_line=lkun1.replace_all(&buf_line.clone(),"\'").to_string();
             buf_line=lkun1a.replace_all(&buf_line.clone(),"\"").to_string();
-            if buf_lkun.starts_with("depends") {
-                depends_searched=true;
-                let mut buf_copykun=buf_line.clone();
-                buf_copykun=buf_copykun.replace("depends","");
+            if(!makedepends_enable){
+                if buf_lkun.starts_with("depends") {
+                    depends_searched=true;
+                    let mut buf_copykun=buf_line.clone();
+                    buf_copykun=buf_copykun.replace("depends","");
 
-                let mut head_bufkun:String = String::new();
-                head_bufkun.push_str("depends");
-                head_bufkun.push_str(&buf_copykun);
-                file_data_cut.push_str(&head_bufkun);
+                    let mut head_bufkun:String = String::new();
+                    head_bufkun.push_str("depends");
+                    head_bufkun.push_str(&buf_copykun);
+                    file_data_cut.push_str(&head_bufkun);
+                }
+            }else{
+
+                if buf_lkun.starts_with("makedepends") {
+                    depends_searched=true;
+                    let mut buf_copykun=buf_line.clone();
+                    buf_copykun=buf_copykun.replace("makedepends","");
+
+                    let mut head_bufkun:String = String::new();
+                    head_bufkun.push_str("makedepends");
+                    head_bufkun.push_str(&buf_copykun);
+                    file_data_cut.push_str(&head_bufkun);
+                }
             }
         }else if (!depends_ended){
 
